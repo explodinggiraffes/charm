@@ -21,10 +21,12 @@ ROOMS_MAX: Final[int] = 30
 
 
 def main() -> None:
-    # Load the font, a 32 by 8 tile font with libtcod's old character layout.
+    # TODO: Update tileset: https://dwarffortresswiki.org/index.php/DF2014:Tileset_repository
+    # Load the tileset.
     tileset = tcod.tileset.load_tilesheet(
-        "dejavu10x10_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD
+        "assets/Alloy_curses_12x12.png", columns=16, rows=16, charmap=tcod.tileset.CHARMAP_CP437
     )
+    tcod.tileset.procedural_block_elements(tileset=tileset)
 
     # Create the main console.
     console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
