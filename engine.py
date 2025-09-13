@@ -44,7 +44,7 @@ class Engine:
 
         for entity in self.entities:
             # Only render entities that are in the FOV.
-            #if self.game_map.visible[entity.x, entity.y]:
+            if self.game_map.visible[entity.x, entity.y]:
                 console.print(entity.x, entity.y, entity.char, fg=entity.color)
 
         context.present(console)
