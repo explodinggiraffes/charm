@@ -12,7 +12,7 @@ class Action:
         """Perform this action with the objects needed to determine its scope.
         This method must be overridden by Action subclasses.
 
-        Arguments:
+        Args:
           engine: The scope this action is being performed in.
           entity: The object performing the action.
         """
