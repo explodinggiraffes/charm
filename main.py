@@ -1,41 +1,35 @@
 #!/usr/bin/env python3
 
-from typing import Final
-
 import tcod
 
+from constants import MAP_HEIGHT, MAP_WIDTH, ROOMS_MAX, ROOM_SIZE_MAX, ROOM_SIZE_MIN, WINDOW_HEIGHT, WINDOW_WIDTH
 from engine import Engine
 from entity import Entity
-from input_handlers import EventHandler
 from procgen import generate_dungeon
-
-WINDOW_WIDTH: Final[int] = 80
-WINDOW_HEIGHT: Final[int] = 50
-
-MAP_WIDTH: Final[int] = 80
-MAP_HEIGHT: Final[int] = 45
-
-ROOM_SIZE_MAX: Final[int] = 10
-ROOM_SIZE_MIN: Final[int] = 6
-ROOMS_MAX: Final[int] = 30
 
 
 def main() -> None:
-    # TODO: Update tileset: https://dwarffortresswiki.org/index.php/DF2014:Tileset_repository
+    # TODO:
+    # 1. Create a "tileset manager" that is used directly by the Engine class.
+    #    Note in dot_hack, this was done in Engine.__init()___
+    # 2. Update tileset: https://dwarffortresswiki.org/index.php/DF2014:Tileset_repository
     # Load the tileset.
     tileset = tcod.tileset.load_tilesheet(
         "assets/Alloy_curses_12x12.png", columns=16, rows=16, charmap=tcod.tileset.CHARMAP_CP437
     )
     tcod.tileset.procedural_block_elements(tileset=tileset)
 
-    # Create the main console.
-    console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
-
+    # TODO:
+    # 1. Create an "entity manager" that spawns the player and NPCs that is used directly by the Engine class.
+    #    Note in dot_hack, this was done in Engine.__init()___
     # Create the player and an NPC.
     player = Entity(int(WINDOW_WIDTH / 2), int(WINDOW_HEIGHT / 2), "@", (255, 255, 255))
     npc = Entity(int(WINDOW_WIDTH / 2 - 5), int(WINDOW_HEIGHT / 2), "@", (255, 255, 0))
     entities = {npc, player}
 
+    # TODO:
+    # 1. Create a "level manager" that creates game maps that is used directly by the Engine class.
+    #    Note in dot_hack, this was done in Engine.__init()___
     # Create the game map.
     game_map = generate_dungeon(
         max_rooms=ROOMS_MAX,
@@ -46,21 +40,8 @@ def main() -> None:
         player=player
     )
 
-    # Create the game engine and its event handler.
-    event_handler = EventHandler()
-    engine = Engine(entities=entities, event_handler=event_handler, game_map=game_map, player=player)
-
-    # Create a window based on this console and tileset, then start the event loop.
-    with tcod.context.new(
-        columns=console.width, rows=console.height, tileset=tileset, title="Charm", vsync=True
-    ) as context:
-        while True:
-            engine.render(console=console, context=context)
-
-            # For a non-blocking event loop replace `tcod.event.wait` with `tcod.event.get`.
-            events = tcod.event.wait()
-
-            engine.handle_events(events)
+    # Create the engine and start the game.
+    Engine(game_map=game_map, tileset=tileset, entities=entities, player=player)
 
 if __name__ == "__main__":
     main()
