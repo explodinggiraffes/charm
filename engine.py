@@ -7,7 +7,7 @@ from tcod.map import compute_fov
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH
 from entity import Entity
 from game_map import GameMap
-from graphical_block_characters import GraphicalBlockCharacters
+from graphical_block_characters import GraphicalBlockCharacters as Graphics
 from input_handlers import EventHandler
 
 
@@ -18,7 +18,7 @@ class Engine:
         self.__entities = entities
         self.__player = player
 
-        self.__char_graphics = GraphicalBlockCharacters()
+        self.__graphics = Graphics()
         self.__console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
         self.__event_handler = EventHandler()
 
@@ -28,7 +28,7 @@ class Engine:
     def handle_game_loop(self) -> None:
         """ Create a window, then handle events and rendering."""
         with tcod.context.new(
-            columns=self.__console.width, rows=self.__console.height, tileset=self.__char_graphics.tileset, title="Charm", vsync=True
+            columns=self.__console.width, rows=self.__console.height, tileset=self.__graphics.tileset, title="Charm", vsync=True
         ) as context:
             while True:
                 self.render(context=context)
