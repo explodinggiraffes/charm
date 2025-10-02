@@ -6,7 +6,7 @@ from typing import Iterator, List, Tuple, TYPE_CHECKING
 import tcod
 
 from game_map import GameMap
-import tile_types
+from graphical_block_characters import GraphicalBlockCharacters as Graphics
 
 if TYPE_CHECKING:
     from entity import Entity
@@ -70,7 +70,7 @@ def generate_dungeon(
         # If there are no intersections then the room is valid.
 
         # Dig out this rooms inner area.
-        dungeon.tiles[new_room.inner] = tile_types.floor
+        dungeon.tiles[new_room.inner] = Graphics.floor_tile()
 
         if len(rooms) == 0:
             # The first room, where the player starts.
@@ -79,7 +79,7 @@ def generate_dungeon(
             # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
             for x, y in tunnel_between(rooms[-1].center, new_room.center):
-                dungeon.tiles[x, y] = tile_types.floor
+                dungeon.tiles[x, y] = Graphics.floor_tile()
 
         # Finally, append the new room to the list.
         rooms.append(new_room)

@@ -1,7 +1,7 @@
 import numpy as np
 from tcod.console import Console
 
-import tile_types
+from graphical_block_characters import SHROUD, GraphicalBlockCharacters as Graphics
 
 
 class GameMap:
@@ -9,7 +9,7 @@ class GameMap:
     def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
-        self.tiles = np.full((width, height), fill_value=tile_types.wall, order="F")
+        self.tiles = np.full((width, height), fill_value=Graphics.wall_tile(), order="F")
         self.visible = np.full((width, height), fill_value=False, order="F")   # Tiles the player can currently see
         self.explored = np.full((width, height), fill_value=False, order="F")  # Tiles the player has seen before
 
@@ -27,5 +27,5 @@ class GameMap:
         console.rgb[0 : self.width, 0 : self.height] = np.select(
             condlist=[self.visible, self.explored],
             choicelist=[self.tiles["light"], self.tiles["dark"]],
-            default=tile_types.SHROUD
+            default=SHROUD
         )
