@@ -9,7 +9,7 @@ from game_map import GameMap
 from graphical_block_characters import GraphicalBlockCharacters as Graphics
 
 if TYPE_CHECKING:
-    from entity import Entity
+    from actors.entity import Entity
 
 
 class RectangularRoom:
