@@ -1,26 +1,34 @@
-from typing import Any, Iterable, Set
+from typing import Any, Iterable
 
 import tcod
 from tcod.context import Context
 from tcod.map import compute_fov
 
-from constants import WINDOW_HEIGHT, WINDOW_WIDTH
-from entity import Entity
-from game_map import GameMap
+from constants import MAP_HEIGHT, MAP_WIDTH, ROOMS_MAX, ROOM_SIZE_MAX, ROOM_SIZE_MIN, WINDOW_HEIGHT, WINDOW_WIDTH
 from graphical_block_characters import GraphicalBlockCharacters as Graphics
 from input_handlers import EventHandler
+from procgen import generate_dungeon
+from world import World
 
 
 class Engine:
-    def __init__(self, game_map: GameMap, entities: Set[Entity], player: Entity):
-        self.game_map = game_map  # Public so Actions can access the GameMap and its attributes
-
-        self.__entities = entities
-        self.__player = player
-
+    def __init__(self):
         self.__graphics = Graphics()
         self.__console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
         self.__event_handler = EventHandler()
+
+        self.__entities = World.spawn_pawns()
+        self.__player = self.__entities[0]
+
+        game_map = generate_dungeon(
+            max_rooms=ROOMS_MAX,
+            room_min_size=ROOM_SIZE_MIN,
+            room_max_size=ROOM_SIZE_MAX,
+            map_width=MAP_WIDTH,
+            map_height=MAP_HEIGHT,
+            player=self.__player
+        )
+        self.game_map = game_map  # Public so Actions can access the GameMap and its attributes
 
         self.update_fov()
         self.handle_game_loop()
