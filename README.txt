@@ -1,4 +1,4 @@
-Instructions for setting up the Enchantment project on macOS.
+Instructions for setting up the Charm project on macOS.
 
 * Step 1: Install Simple Direct Media Layer (SDL2) using brew:
 brew install SDL2
@@ -25,3 +25,4 @@ numpy>=2.2.4
 pip3 install -r requirements.txt
 
 To update: pip3 install --upgrade -r requirements.txt
+
