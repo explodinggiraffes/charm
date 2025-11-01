@@ -16,7 +16,7 @@ TILE_GRAPHIC_COLORS = np.dtype(
 # Tile struct used for statically defined tile data.
 TILE_DATA = np.dtype(
     [
-        ("walkable", bool),             # True if this tile can be walked over.
+        ("walkable", bool),              # True if this tile can be walked over.
         ("transparent", bool),           # True if this tile doesn't block FOV.
         ("dark", TILE_GRAPHIC_COLORS),   # Graphics for when this tile is not in FOV.
         ("light", TILE_GRAPHIC_COLORS),  # Graphics for when the tile is in FOV.
