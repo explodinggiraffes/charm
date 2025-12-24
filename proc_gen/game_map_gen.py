@@ -1,15 +1,12 @@
 from __future__ import annotations
 
 import random
-from typing import Iterator, List, Tuple, TYPE_CHECKING
+from typing import Iterator, List, Tuple
 
 import tcod
 
 from game_map import GameMap
 from graphical_block_characters import GraphicalBlockCharacters as Graphics
-
-if TYPE_CHECKING:
-    pass
 
 
 class RectangularRoom:
