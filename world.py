@@ -1,6 +1,6 @@
 from constants import MAP_HEIGHT, MAP_WIDTH, ROOMS_MAX, ROOM_SIZE_MAX, ROOM_SIZE_MIN
 from game_map import GameMap
-from procgen import generate_dungeon
+from game_map_gen import generate_dungeon
 
 
 class World:
