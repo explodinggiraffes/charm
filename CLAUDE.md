@@ -95,10 +95,6 @@ Key configuration values in `constants.py`:
 - `ROOM_SIZE_MIN/MAX`: Room dimensions (6-10)
 - `ROOMS_MAX`: Maximum room attempts (30)
 
-## Known Issues
-
-Per TODO.txt: Entity spawning needs refactoring. Currently, `World.spawn_pawn()` uses hardcoded positions and is called before the dungeon is generated, which can result in NPCs spawning inside walls. A better approach would be to spawn NPCs during or after dungeon generation when valid floor positions are known.
-
 ## Code Patterns
 
 - Uses `TYPE_CHECKING` imports to avoid circular dependencies
