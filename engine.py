@@ -16,19 +16,15 @@ class Engine:
     On initialization, the Engine:
     1. Creates the graphics system (tileset loading)
     2. Sets up the console and event handler
-    3. Spawns entities via World.spawn_pawns() (player is always index 0)
-    4. Creates the dungeon via World.create_dungeon(), passing the player entity for positioning
-    5. Handles the game loop: event processing, FOV updates, and rendering
+    3. Creates the dungeon via World.create_dungeon() (which spawns entities and positions the player)
+    4. Handles the game loop: event processing, FOV updates, and rendering
     """
     def __init__(self):
         self.__graphics = Graphics()
         self.__console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
         self.__event_handler = EventHandler()
 
-        self.__entities = World.spawn_pawns()
-        self.__player = self.__entities[0]
-
-        self.game_map = World.create_dungeon(self.__player)
+        self.game_map = World.create_dungeon()
 
         self.update_fov()
         self.handle_game_loop()
@@ -51,7 +47,7 @@ class Engine:
             action = self.__event_handler.dispatch(event)
             if action is None:
                 continue
-            action.perform(self.game_map, self.__player)
+            action.perform(self.game_map, self.game_map.player)
 
             self.update_fov()  # Update the FOV before the player's next action.
 
@@ -59,7 +55,7 @@ class Engine:
         """Recompute the visible area based on the players point of view."""
         self.game_map.visible[:] = compute_fov(
             self.game_map.tiles["transparent"],
-            (self.__player.x, self.__player.y),
+            (self.game_map.player.x, self.game_map.player.y),
             radius=8,
         )
         # If a tile is "visible" it should be added to "explored".
@@ -69,10 +65,10 @@ class Engine:
         """Render the game map and entities within the player's FOV."""
         self.game_map.render(self.__console)
 
-        for entity in self.__entities:
+        for entity in self.game_map.entities:
             # Only render entities that are in the FOV.
-            if self.game_map.visible[entity.x, entity.y]:
-                self.__console.print(entity.x, entity.y, entity.char, fg=entity.color)
+            #if self.game_map.visible[entity.x, entity.y]:  # Re-add this if statement when entities are debugged
+            self.__console.print(entity.x, entity.y, entity.char, fg=entity.color)
 
         context.present(self.__console)
         self.__console.clear()

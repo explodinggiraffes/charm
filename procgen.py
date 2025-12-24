@@ -5,11 +5,13 @@ from typing import Iterator, List, Tuple, TYPE_CHECKING
 
 import tcod
 
+from actors.entity import Entity
+from constants import WINDOW_HEIGHT, WINDOW_WIDTH
 from game_map import GameMap
 from graphical_block_characters import GraphicalBlockCharacters as Graphics
 
 if TYPE_CHECKING:
-    from actors.entity import Entity
+    pass
 
 
 class RectangularRoom:
@@ -47,7 +49,6 @@ def generate_dungeon(
     room_max_size: int,
     map_width: int,
     map_height: int,
-    player: Entity,
 ) -> GameMap:
     """Generate a new dungeon map."""
     dungeon = GameMap(map_width, map_height)
@@ -74,7 +75,7 @@ def generate_dungeon(
 
         if len(rooms) == 0:
             # The first room, where the player starts.
-            player.x, player.y = new_room.center
+            dungeon.player.x, dungeon.player.y = new_room.center
         else:
             # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
@@ -104,3 +105,19 @@ def tunnel_between(
         yield x, y
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist():
         yield x, y
+
+def spawn_player_actor() -> Entity:
+    """Return the entity representing the player character."""
+    return Entity("@", (255, 255, 255), 0, 0)
+
+def spawn_pawn() -> Entity:
+    """Return an entity controlled by the game's AI as non-player characters (NPCs)."""
+    return Entity("O", (255, 255, 0), int(WINDOW_WIDTH / 2 - 5), int(WINDOW_HEIGHT / 2))
+
+def spawn_pawns() -> List[Entity]:
+    """Return a list of all pawns: the player character, as well as all NPCs."""
+    player = spawn_player_actor()
+    npc = spawn_pawn()
+
+    entities = [player, npc]
+    return entities

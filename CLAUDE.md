@@ -42,29 +42,30 @@ python3 main.py
 **Engine (`engine.py`)**: The main game loop and controller. On initialization, it:
 1. Creates the graphics system (tileset loading)
 2. Sets up the console and event handler
-3. Spawns entities via `World.spawn_pawns()` (player is always index 0)
-4. Creates the dungeon via `World.create_dungeon()`, passing the player entity for positioning
-5. Handles the game loop: event processing, FOV updates, and rendering
+3. Creates the dungeon via `World.create_dungeon()` (which internally creates the GameMap with entities)
+4. Handles the game loop: event processing, FOV updates, and rendering
 
-**World (`world.py`)**: Responsible for both entity spawning and world/map creation. Provides:
-- `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
-- `spawn_pawn()`: Creates an NPC (O) - currently has hardcoded position
-- `spawn_pawns()`: Returns a list containing the player (index 0) and all NPCs
-- `create_dungeon(player)`: Wraps `procgen.generate_dungeon()` with default parameters from `constants.py`, positioning the player in the first room
+The Engine accesses entities and the player through `game_map.entities` and `game_map.player`.
 
-Note: NPC spawning has a known issue where entities can spawn inside walls since `spawn_pawn()` uses hardcoded positions rather than map-aware placement.
+**World (`world.py`)**: Responsible for world/map creation. Provides:
+- `create_dungeon()`: Wraps `procgen.generate_dungeon()` with default parameters from `constants.py`, returning a fully initialized GameMap with entities and positioned player
 
-**Procedural Generation (`procgen.py`)**: Implements dungeon generation using:
+**Procedural Generation (`procgen.py`)**: Implements dungeon generation and entity spawning:
 - `RectangularRoom` class for room representation
-- `generate_dungeon()` creates non-overlapping rooms connected by L-shaped tunnels
-- Player spawns in the center of the first room
-- Rooms connected sequentially with `tunnel_between()` using Bresenham's line algorithm
+- `generate_dungeon()` creates non-overlapping rooms connected by L-shaped tunnels, positions the player in the first room's center
+- `tunnel_between()` creates L-shaped corridors using Bresenham's line algorithm
+- `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
+- `spawn_pawn()`: Creates an NPC (O) with hardcoded position
+- `spawn_pawns()`: Returns a list containing the player (index 0) and all NPCs
 
-**GameMap (`game_map.py`)**: Stores map tiles and visibility state:
+**GameMap (`game_map.py`)**: Stores map tiles, visibility state, and entities:
 - `tiles`: NumPy array of tile data (walkable, transparent, graphics)
 - `visible`: Currently visible tiles (FOV)
 - `explored`: Previously seen tiles (persistent)
+- `entities`: List of all entities (player and NPCs), populated during `__init__()` via `procgen.spawn_pawns()`
+- `player`: Reference to the player entity (always `entities[0]`)
 - Uses NumPy's `np.select()` for efficient rendering of visible/explored/shroud states
+- Uses late import of `procgen.spawn_pawns()` to avoid circular dependency
 
 ### Entity-Component System
 

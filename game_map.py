@@ -7,11 +7,16 @@ from graphical_block_characters import SHROUD, GraphicalBlockCharacters as Graph
 class GameMap:
     """A game map made up of rooms that contain entities such as players, enemies, items, etc."""
     def __init__(self, width: int, height: int):
+        from procgen import spawn_pawns
+
         self.width = width
         self.height = height
         self.tiles = np.full((width, height), fill_value=Graphics.wall_tile(), order="F")
         self.visible = np.full((width, height), fill_value=False, order="F")   # Tiles the player can currently see
         self.explored = np.full((width, height), fill_value=False, order="F")  # Tiles the player has seen before
+
+        self.entities = spawn_pawns()
+        self.player = self.entities[0]
 
     def in_bounds(self, x: int, y: int) -> bool:
         """Return True if x and y are inside of the bounds of this map, False if not."""
