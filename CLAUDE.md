@@ -42,13 +42,15 @@ python3 main.py
 **Engine (`engine.py`)**: The main game loop and controller. On initialization, it:
 1. Creates the graphics system (tileset loading)
 2. Sets up the console and event handler
-3. Creates the dungeon via `World.create_dungeon()` (which internally creates the GameMap with entities)
-4. Handles the game loop: event processing, FOV updates, and rendering
+3. Creates a World instance (stored as a private attribute)
+4. Creates the dungeon via the World instance (which internally creates the GameMap with entities)
+5. Handles the game loop: event processing, FOV updates, and rendering
 
 The Engine accesses entities and the player through `game_map.entities` and `game_map.player`.
 
 **World (`world.py`)**: Responsible for world/map creation. Provides:
-- `create_dungeon()`: Wraps `procgen.generate_dungeon()` with default parameters from `constants.py`, returning a fully initialized GameMap with entities and positioned player
+- `create_dungeon()`: Instance method that wraps `procgen.generate_dungeon()` with default parameters from `constants.py`, returning a fully initialized GameMap with entities and positioned player
+- The Engine creates and maintains a World instance as a private attribute
 
 **Procedural Generation (`procgen.py`)**: Implements dungeon generation and entity spawning:
 - `RectangularRoom` class for room representation

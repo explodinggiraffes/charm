@@ -6,8 +6,7 @@ from procgen import generate_dungeon
 class World:
     """A container for all the levels/maps that make up your game."""
 
-    @staticmethod
-    def create_dungeon() -> GameMap:
+    def create_dungeon(self) -> GameMap:
         """Generate and return a new dungeon map with the player positioned in the first room."""
         return generate_dungeon(
             max_rooms=ROOMS_MAX,

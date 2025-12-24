@@ -16,15 +16,17 @@ class Engine:
     On initialization, the Engine:
     1. Creates the graphics system (tileset loading)
     2. Sets up the console and event handler
-    3. Creates the dungeon via World.create_dungeon() (which spawns entities and positions the player)
-    4. Handles the game loop: event processing, FOV updates, and rendering
+    3. Creates a World instance
+    4. Creates the dungeon via the World instance (which spawns entities and positions the player)
+    5. Handles the game loop: event processing, FOV updates, and rendering
     """
     def __init__(self):
         self.__graphics = Graphics()
         self.__console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
         self.__event_handler = EventHandler()
+        self.__world = World()
 
-        self.game_map = World.create_dungeon()
+        self.game_map = self.__world.create_dungeon()
 
         self.update_fov()
         self.handle_game_loop()
