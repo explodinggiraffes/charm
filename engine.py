@@ -12,6 +12,15 @@ from world import World
 
 
 class Engine:
+    """The main game loop and controller.
+
+    On initialization, the Engine:
+    1. Creates the graphics system (tileset loading)
+    2. Sets up the console and event handler
+    3. Spawns entities via World.spawn_pawns() (player is always index 0)
+    4. Generates the dungeon using generate_dungeon(), passing the player entity for positioning
+    5. Handles the game loop: event processing, FOV updates, and rendering
+    """
     def __init__(self):
         self.__graphics = Graphics()
         self.__console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
