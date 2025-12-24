@@ -43,14 +43,15 @@ python3 main.py
 1. Creates the graphics system (tileset loading)
 2. Sets up the console and event handler
 3. Creates a World instance (stored as a private attribute)
-4. Creates the dungeon via the World instance (which internally creates the GameMap with entities)
+4. Calls `World.create_dungeon()` to populate the World's `current_map` attribute
 5. Handles the game loop: event processing, FOV updates, and rendering
 
-The Engine accesses entities and the player through `game_map.entities` and `game_map.player`.
+The Engine does not maintain its own reference to the GameMap. It accesses the current map, entities, and player through `self.__world.current_map`, `self.__world.current_map.entities`, and `self.__world.current_map.player`.
 
-**World (`world.py`)**: Responsible for world/map creation. Provides:
-- `create_dungeon()`: Instance method that wraps `procgen.generate_dungeon()` with default parameters from `constants.py`, returning a fully initialized GameMap with entities and positioned player
-- The Engine creates and maintains a World instance as a private attribute
+**World (`world.py`)**: Container for game levels/maps. Manages the current active map:
+- `current_map`: Public attribute holding the currently active GameMap instance
+- `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by calling `procgen.generate_dungeon()` with default parameters from `constants.py`
+- The Engine creates and maintains a World instance as a private attribute and accesses the game map through it
 
 **Procedural Generation (`procgen.py`)**: Implements dungeon generation and entity spawning:
 - `RectangularRoom` class for room representation

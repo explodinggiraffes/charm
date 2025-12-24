@@ -5,10 +5,12 @@ from procgen import generate_dungeon
 
 class World:
     """A container for all the levels/maps that make up your game."""
+    def __init__(self):
+        self.current_map = None
 
-    def create_dungeon(self) -> GameMap:
-        """Generate and return a new dungeon map with the player positioned in the first room."""
-        return generate_dungeon(
+    def create_dungeon(self) -> None:
+        """Generate a new dungeon map and populate self.current_map."""
+        self.current_map = generate_dungeon(
             max_rooms=ROOMS_MAX,
             room_min_size=ROOM_SIZE_MIN,
             room_max_size=ROOM_SIZE_MAX,
