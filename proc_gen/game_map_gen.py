@@ -47,6 +47,7 @@ def generate_dungeon(
 ) -> GameMap:
     """Generate a new dungeon map."""
     dungeon = GameMap(map_width, map_height)
+    dungeon.spawn_pawns()
 
     rooms: List[RectangularRoom] = []
 

@@ -56,7 +56,7 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 **Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
 - **`proc_gen/game_map_gen.py`**: Map generation functions
   - `RectangularRoom` class for room representation
-  - `generate_dungeon()` creates non-overlapping rooms connected by L-shaped tunnels, positions the player in the first room's center
+  - `generate_dungeon()` creates a GameMap, spawns entities via `GameMap.spawn_pawns()`, then generates non-overlapping rooms connected by L-shaped tunnels and positions the player in the first room's center
   - `tunnel_between()` creates L-shaped corridors using Bresenham's line algorithm
 - **`proc_gen/pawn_gen.py`**: Entity spawning functions
   - `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
@@ -68,10 +68,11 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 - `tiles`: NumPy array of tile data (walkable, transparent, graphics)
 - `visible`: Currently visible tiles (FOV)
 - `explored`: Previously seen tiles (persistent)
-- `entities`: List of all entities (player and NPCs), populated during `__init__()` via `proc_gen.spawn_pawns()`
-- `player`: Reference to the player entity (always `entities[0]`)
+- `entities`: List of all entities (player and NPCs), initialized to `None` in `__init__()`
+- `player`: Reference to the player entity (always `entities[0]`), initialized to `None` in `__init__()`
+- `spawn_pawns()`: Method that populates `entities` and `player` by calling `proc_gen.spawn_pawns()`, called by `proc_gen.generate_dungeon()` during map generation
 - Uses NumPy's `np.select()` for efficient rendering of visible/explored/shroud states
-- Uses late import of `proc_gen.spawn_pawns()` to avoid circular dependency
+- Uses late import of `proc_gen.spawn_pawns()` in the `spawn_pawns()` method to avoid circular dependency
 
 ### Entity-Component System
 

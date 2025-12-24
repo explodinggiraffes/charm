@@ -7,13 +7,17 @@ from graphical_block_characters import SHROUD, GraphicalBlockCharacters as Graph
 class GameMap:
     """A game map made up of rooms that contain entities such as players, enemies, items, etc."""
     def __init__(self, width: int, height: int):
-        from proc_gen import spawn_pawns
-
         self.width = width
         self.height = height
         self.tiles = np.full((width, height), fill_value=Graphics.wall_tile(), order="F")
         self.visible = np.full((width, height), fill_value=False, order="F")   # Tiles the player can currently see
         self.explored = np.full((width, height), fill_value=False, order="F")  # Tiles the player has seen before
+        self.entities = None
+        self.player = None
+
+    def spawn_pawns(self) -> None:
+        """Initialize entities and player by spawning all pawns."""
+        from proc_gen import spawn_pawns
 
         self.entities = spawn_pawns()
         self.player = self.entities[0]
