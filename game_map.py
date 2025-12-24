@@ -7,7 +7,7 @@ from graphical_block_characters import SHROUD, GraphicalBlockCharacters as Graph
 class GameMap:
     """A game map made up of rooms that contain entities such as players, enemies, items, etc."""
     def __init__(self, width: int, height: int):
-        from game_map_gen import spawn_pawns
+        from proc_gen import spawn_pawns
 
         self.width = width
         self.height = height

@@ -50,25 +50,26 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 
 **World (`world.py`)**: Container for game levels/maps. Manages the current active map:
 - `current_map`: Public attribute holding the currently active GameMap instance
-- `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by calling `game_map_gen.generate_dungeon()` with default parameters from `constants.py`
+- `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`
 - The Engine creates and maintains a World instance as a private attribute and accesses the game map through it
 
-**Procedural Generation (`game_map_gen.py`)**: Implements dungeon generation and entity spawning:
+**Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic in `proc_gen/game_map_gen.py`:
 - `RectangularRoom` class for room representation
 - `generate_dungeon()` creates non-overlapping rooms connected by L-shaped tunnels, positions the player in the first room's center
 - `tunnel_between()` creates L-shaped corridors using Bresenham's line algorithm
 - `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
 - `spawn_pawn()`: Creates an NPC (O) with hardcoded position
 - `spawn_pawns()`: Returns a list containing the player (index 0) and all NPCs
+- Functions are re-exported via `proc_gen/__init__.py` for convenient importing
 
 **GameMap (`game_map.py`)**: Stores map tiles, visibility state, and entities:
 - `tiles`: NumPy array of tile data (walkable, transparent, graphics)
 - `visible`: Currently visible tiles (FOV)
 - `explored`: Previously seen tiles (persistent)
-- `entities`: List of all entities (player and NPCs), populated during `__init__()` via `game_map_gen.spawn_pawns()`
+- `entities`: List of all entities (player and NPCs), populated during `__init__()` via `proc_gen.spawn_pawns()`
 - `player`: Reference to the player entity (always `entities[0]`)
 - Uses NumPy's `np.select()` for efficient rendering of visible/explored/shroud states
-- Uses late import of `game_map_gen.spawn_pawns()` to avoid circular dependency
+- Uses late import of `proc_gen.spawn_pawns()` to avoid circular dependency
 
 ### Entity-Component System
 
