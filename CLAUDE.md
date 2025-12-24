@@ -43,10 +43,16 @@ python3 main.py
 1. Creates the graphics system (tileset loading)
 2. Sets up the console and event handler
 3. Spawns entities via `World.spawn_pawns()` (player is always index 0)
-4. Generates the dungeon using `generate_dungeon()`, passing the player entity for positioning
+4. Creates the dungeon via `World.create_dungeon()`, passing the player entity for positioning
 5. Handles the game loop: event processing, FOV updates, and rendering
 
-**World (`world.py`)**: Entity factory responsible for spawning all dynamic game objects (player and NPCs). Currently spawns a player (@) and one NPC (O). Note: NPC spawning has a known issue where entities can spawn inside walls since the map generator doesn't yet control NPC placement.
+**World (`world.py`)**: Responsible for both entity spawning and world/map creation. Provides:
+- `spawn_actor()`: Creates the player entity (@) at position (0, 0)
+- `spawn_pawn()`: Creates an NPC (O) - currently has hardcoded position
+- `spawn_pawns()`: Returns a list containing the player (index 0) and all NPCs
+- `create_dungeon(player)`: Wraps `procgen.generate_dungeon()` with default parameters from `constants.py`, positioning the player in the first room
+
+Note: NPC spawning has a known issue where entities can spawn inside walls since `spawn_pawn()` uses hardcoded positions rather than map-aware placement.
 
 **Procedural Generation (`procgen.py`)**: Implements dungeon generation using:
 - `RectangularRoom` class for room representation
@@ -91,7 +97,7 @@ Key configuration values in `constants.py`:
 
 ## Known Issues
 
-Per TODO.txt: Entity spawning needs refactoring. The interaction between `World.spawn_pawns()` and `generate_dungeon()` needs improvement - currently NPCs can spawn in walls because the World doesn't have map context during spawning.
+Per TODO.txt: Entity spawning needs refactoring. Currently, `World.spawn_pawn()` uses hardcoded positions and is called before the dungeon is generated, which can result in NPCs spawning inside walls. A better approach would be to spawn NPCs during or after dungeon generation when valid floor positions are known.
 
 ## Code Patterns
 
