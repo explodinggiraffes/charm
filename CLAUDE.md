@@ -71,11 +71,11 @@ Note: NPC spawning has a known issue where entities can spawn inside walls since
 **Entity (`actors/entity.py`)**: Generic container for all game objects (players, NPCs, items). Has position (x, y), visual representation (char, color), and a `move()` method. Subclasses planned but not yet implemented.
 
 **Actions (`actions.py`)**: Command pattern for all game behaviors:
-- `Action`: Base class with `perform(engine, entity)` signature
+- `Action`: Base class with `perform(game_map, entity)` signature
 - `MovementAction`: Validates destination (bounds + walkability) before moving
 - `EscapeAction`: Exits the game
 
-Actions decouple input from behavior and have access to the engine (including `game_map`) for validation.
+Actions decouple input from behavior and receive the `game_map` for validation and state changes.
 
 ### Input & Rendering
 

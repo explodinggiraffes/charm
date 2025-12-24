@@ -28,7 +28,7 @@ class Engine:
         self.__entities = World.spawn_pawns()
         self.__player = self.__entities[0]
 
-        self.game_map = World.create_dungeon(self.__player)  # Public so Actions can access the GameMap and its attributes
+        self.game_map = World.create_dungeon(self.__player)
 
         self.update_fov()
         self.handle_game_loop()
@@ -51,7 +51,7 @@ class Engine:
             action = self.__event_handler.dispatch(event)
             if action is None:
                 continue
-            action.perform(self, self.__player)
+            action.perform(self.game_map, self.__player)
 
             self.update_fov()  # Update the FOV before the player's next action.
 
