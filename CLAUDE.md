@@ -53,14 +53,16 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 - `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`
 - The Engine creates and maintains a World instance as a private attribute and accesses the game map through it
 
-**Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic in `proc_gen/game_map_gen.py`:
-- `RectangularRoom` class for room representation
-- `generate_dungeon()` creates non-overlapping rooms connected by L-shaped tunnels, positions the player in the first room's center
-- `tunnel_between()` creates L-shaped corridors using Bresenham's line algorithm
-- `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
-- `spawn_pawn()`: Creates an NPC (O) with hardcoded position
-- `spawn_pawns()`: Returns a list containing the player (index 0) and all NPCs
-- Functions are re-exported via `proc_gen/__init__.py` for convenient importing
+**Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
+- **`proc_gen/game_map_gen.py`**: Map generation functions
+  - `RectangularRoom` class for room representation
+  - `generate_dungeon()` creates non-overlapping rooms connected by L-shaped tunnels, positions the player in the first room's center
+  - `tunnel_between()` creates L-shaped corridors using Bresenham's line algorithm
+- **`proc_gen/pawn_gen.py`**: Entity spawning functions
+  - `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
+  - `spawn_pawn()`: Creates an NPC (O) with hardcoded position
+  - `spawn_pawns()`: Returns a list containing the player (index 0) and all NPCs
+- All functions are re-exported via `proc_gen/__init__.py` for convenient importing
 
 **GameMap (`game_map.py`)**: Stores map tiles, visibility state, and entities:
 - `tiles`: NumPy array of tile data (walkable, transparent, graphics)
