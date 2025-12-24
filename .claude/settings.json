@@ -1,0 +1,13 @@
+{
+  "allowedTools": [
+    "Edit",
+    "MultiEdit",
+    "Write"
+  ]
+  "permissions": {
+    "deny": [
+      "Bash(git commit:*)"
+    ]
+  }
+}
+
