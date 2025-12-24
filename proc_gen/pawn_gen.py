@@ -18,4 +18,5 @@ def spawn_pawns() -> List[Entity]:
     npc = spawn_pawn()
 
     entities = [player, npc]
+
     return entities
