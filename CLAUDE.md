@@ -47,7 +47,7 @@ python3 main.py
 5. Handles the game loop: event processing, FOV updates, and rendering
 
 **World (`world.py`)**: Responsible for both entity spawning and world/map creation. Provides:
-- `spawn_actor()`: Creates the player entity (@) at position (0, 0)
+- `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
 - `spawn_pawn()`: Creates an NPC (O) - currently has hardcoded position
 - `spawn_pawns()`: Returns a list containing the player (index 0) and all NPCs
 - `create_dungeon(player)`: Wraps `procgen.generate_dungeon()` with default parameters from `constants.py`, positioning the player in the first room

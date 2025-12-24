@@ -24,7 +24,7 @@ class World:
         )
 
     @staticmethod
-    def spawn_actor() -> Entity:
+    def spawn_player_actor() -> Entity:
         """Return the entity representing the player character."""
         return Entity("@", (255, 255, 255), 0, 0)
 
@@ -38,7 +38,7 @@ class World:
     @staticmethod
     def spawn_pawns() -> List[Entity]:
         """Return a list of all pawns: the player character, as well as all NPCs."""
-        player = World.spawn_actor()
+        player = World.spawn_player_actor()
         npc = World.spawn_pawn()
 
         entities = [player, npc]
