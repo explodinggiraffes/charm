@@ -8,6 +8,11 @@ if TYPE_CHECKING:
 
 
 class Action:
+    """Base class for all actions using the Command pattern.
+
+    Actions decouple input from behavior and have access to the engine
+    (including game_map) for validation and state changes.
+    """
     def perform(self, engine: Engine, entity: Entity) -> None:
         """Perform this action with the objects needed to determine its scope.
         This method must be overridden by Action subclasses.
@@ -19,6 +24,11 @@ class Action:
         raise NotImplementedError()
 
 class MovementAction(Action):
+    """Action for moving an entity by a relative offset.
+
+    Validates that the destination is in bounds and walkable before
+    performing the move. If validation fails, the action does nothing.
+    """
     def __init__(self, dx: int, dy: int):
         super().__init__()
         self.__dx = dx
@@ -36,5 +46,9 @@ class MovementAction(Action):
         entity.move(self.__dx, self.__dy)
 
 class EscapeAction(Action):
+    """Action for exiting the game.
+
+    Raises SystemExit to terminate the application when performed.
+    """
     def perform(self, engine: Engine, entity: Entity) -> None:
         raise SystemExit()
