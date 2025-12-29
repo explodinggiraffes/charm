@@ -18,8 +18,8 @@ class Action:
         This method must be overridden by Action subclasses.
 
         Args:
-          game_map: The game map this action is being performed in.
-          entity: The object performing the action.
+            game_map: The game map this action is being performed in.
+            entity: The object performing the action.
         """
         raise NotImplementedError()
 
