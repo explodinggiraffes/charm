@@ -10,15 +10,19 @@ from rectangular_room import RectangularRoom
 class GameMap:
     """A game map made up of rooms that contain entities such as players, enemies, items, etc."""
     def __init__(self, width: int, height: int):
+        # Map dimensions
         self.width = width
         self.height = height
 
+        # Room layout
         self.rooms: List[RectangularRoom] = []
 
+        # Tile data and visibility tracking
         self.tiles = np.full((width, height), fill_value=Graphics.wall_tile(), order="F")
         self.visible = np.full((width, height), fill_value=False, order="F")   # Tiles the player can currently see
         self.explored = np.full((width, height), fill_value=False, order="F")  # Tiles the player has seen before
 
+        # Entity tracking
         self.entities = None
         self.player = None
 
