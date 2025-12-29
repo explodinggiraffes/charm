@@ -24,8 +24,8 @@ class Engine:
         self.__graphics = Graphics()
         self.__console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
         self.__event_handler = EventHandler()
-        self.__world = World()
 
+        self.__world = World()
         self.__world.create_dungeon()
 
         self.update_fov()
