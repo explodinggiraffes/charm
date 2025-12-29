@@ -2,7 +2,7 @@ from typing import Optional
 
 import tcod.event
 
-from actions import Action, EscapeAction, MovementAction
+from actions import Action, GameExitAction, MovementAction
 
 
 MOVE_KEYS = {
@@ -51,7 +51,7 @@ class EventHandler(tcod.event.EventDispatch[Action]):
             dx, dy = MOVE_KEYS[key]
             action = MovementAction(dx, dy)
         elif key == tcod.event.KeySym.ESCAPE:
-            action = EscapeAction()  # TODO: Rename to GameExitAction
+            action = GameExitAction()
 
         return action
 
