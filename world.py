@@ -10,10 +10,12 @@ class World:
 
     def create_dungeon(self) -> None:
         """Generate a new dungeon map and populate self.current_map."""
-        self.current_map = generate_dungeon(
+        self.current_map, starting_position = generate_dungeon(
             max_rooms=ROOMS_MAX,
             room_min_size=ROOM_SIZE_MIN,
             room_max_size=ROOM_SIZE_MAX,
             map_width=MAP_WIDTH,
             map_height=MAP_HEIGHT,
         )
+        self.current_map.spawn_pawns()
+        self.current_map.player.x, self.current_map.player.y = starting_position
