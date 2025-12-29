@@ -9,11 +9,9 @@ from proc_gen.pawn_gen import (
     spawn_pawns,
     spawn_player_actor,
 )
-from proc_gen.rectangular_room import RectangularRoom
 
 __all__ = [
     "generate_dungeon",
-    "RectangularRoom",
     "spawn_pawn",
     "spawn_pawns",
     "spawn_player_actor",

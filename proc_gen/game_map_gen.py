@@ -7,7 +7,7 @@ import tcod
 
 from game_map import GameMap
 from graphical_block_characters import GraphicalBlockCharacters as Graphics
-from proc_gen.rectangular_room import RectangularRoom
+from rectangular_room import RectangularRoom
 
 
 def generate_dungeon(
