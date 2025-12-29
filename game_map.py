@@ -12,12 +12,15 @@ class GameMap:
     def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
+
+        self.rooms: List[RectangularRoom] = []
+
         self.tiles = np.full((width, height), fill_value=Graphics.wall_tile(), order="F")
         self.visible = np.full((width, height), fill_value=False, order="F")   # Tiles the player can currently see
         self.explored = np.full((width, height), fill_value=False, order="F")  # Tiles the player has seen before
+
         self.entities = None
         self.player = None
-        self.rooms: List[RectangularRoom] = []
 
     def in_bounds(self, x: int, y: int) -> bool:
         """Return True if x and y are inside of the bounds of this map, False if not."""
