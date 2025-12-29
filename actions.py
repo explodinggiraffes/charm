@@ -10,8 +10,7 @@ if TYPE_CHECKING:
 class Action:
     """Base class for all actions using the Command pattern.
 
-    Actions decouple input from behavior and have access to the game_map
-    for validation and state changes.
+    Actions decouple input from behavior, and have access to the GameMap to carry out the action's intended behavior.
     """
     def perform(self, game_map: GameMap, entity: Entity) -> None:
         """Perform this action with the objects needed to determine its scope.
@@ -26,8 +25,8 @@ class Action:
 class MovementAction(Action):
     """Action for moving an entity by a relative offset.
 
-    Validates that the destination is in bounds and walkable before
-    performing the move. If validation fails, the action does nothing.
+    Validates that the destination is in bounds and walkable before performing the move.
+    If validation fails, the action does nothing.
     """
     def __init__(self, dx: int, dy: int):
         super().__init__()
