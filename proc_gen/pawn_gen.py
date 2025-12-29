@@ -1,6 +1,6 @@
 from typing import List
 
-from actors.entity import Entity
+from actors import Entity
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH
 
 
