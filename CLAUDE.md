@@ -50,38 +50,45 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 
 **World (`world.py`)**: Container for game levels/maps. Manages the current active map:
 - `current_map`: Public attribute holding the currently active GameMap instance
-- `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`
+- `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by:
+  1. Calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`
+  2. Spawning entities via `proc_gen.spawn_pawns()` and assigning to `current_map.entities`
+  3. Positioning the player at the starting location returned by `generate_dungeon()`
 - The Engine creates and maintains a World instance as a private attribute and accesses the game map through it
 
 **Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
 - **`proc_gen/game_map_gen.py`**: Map generation functions
-  - `RectangularRoom` class for room representation
-  - `generate_dungeon()` creates a GameMap, spawns entities via `GameMap.spawn_pawns()`, then generates non-overlapping rooms connected by L-shaped tunnels and positions the player in the first room's center
-  - `tunnel_between()` creates L-shaped corridors using Bresenham's line algorithm
+  - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, and returns a tuple of (GameMap, starting_position)
+  - `tunnel_between()`: Creates L-shaped corridors using Bresenham's line algorithm
 - **`proc_gen/pawn_gen.py`**: Entity spawning functions
   - `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
   - `spawn_pawn()`: Creates an NPC (O) with hardcoded position
   - `spawn_pawns()`: Returns a list containing the player (index 0) and all NPCs
 - All functions are re-exported via `proc_gen/__init__.py` for convenient importing
 
-**GameMap (`game_map.py`)**: Stores map tiles, visibility state, and entities:
+**RectangularRoom (`rectangular_room.py`)**: A data structure for room representation with properties:
+- `center`: Returns the center coordinates of the room
+- `inner`: Returns a 2D array slice for the room's inner area
+- `intersects()`: Checks if this room overlaps with another room
+
+**GameMap (`game_map.py`)**: Stores map tiles, visibility state, rooms, and entities:
+- `width`, `height`: Map dimensions
+- `rooms`: List of RectangularRoom objects, populated during dungeon generation
 - `tiles`: NumPy array of tile data (walkable, transparent, graphics)
 - `visible`: Currently visible tiles (FOV)
 - `explored`: Previously seen tiles (persistent)
 - `entities`: List of all entities (player and NPCs), initialized to `None` in `__init__()`
 - `player`: Reference to the player entity (always `entities[0]`), initialized to `None` in `__init__()`
-- `spawn_pawns()`: Method that populates `entities` and `player` by calling `proc_gen.spawn_pawns()`, called by `proc_gen.generate_dungeon()` during map generation
 - Uses NumPy's `np.select()` for efficient rendering of visible/explored/shroud states
-- Uses late import of `proc_gen.spawn_pawns()` in the `spawn_pawns()` method to avoid circular dependency
 
 ### Entity-Component System
 
-**Entity (`actors/entity.py`)**: Generic container for all game objects (players, NPCs, items). Has position (x, y), visual representation (char, color), and a `move()` method. Subclasses planned but not yet implemented.
+**Entity (`actors/entity.py`)**: Generic container for all game objects (players, NPCs, items). Has position (x, y), visual representation (char, color), and a `move()` method. Subclasses planned but not yet implemented. Re-exported via `actors/__init__.py` for convenient importing.
 
 **Actions (`actions.py`)**: Command pattern for all game behaviors:
 - `Action`: Base class with `perform(game_map, entity)` signature
 - `MovementAction`: Validates destination (bounds + walkability) before moving
-- `EscapeAction`: Exits the game
+- `GameExitAction`: Exits the game
 
 Actions decouple input from behavior and receive the `game_map` for validation and state changes.
 
