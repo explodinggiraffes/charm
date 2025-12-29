@@ -36,6 +36,12 @@ MOVE_KEYS = {
 }
 
 class EventHandler(tcod.event.EventDispatch[Action]):
+    """Translates TCOD events to Actions.
+
+    Handles keyboard input and quit events, supporting 8-directional movement
+    via arrow keys, numpad, and vi-keys. Returns Action objects that can be
+    performed by entities in the game.
+    """
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[Action]:
         """Called when a keyboard key is pressed or repeated."""
         action: Optional[Action] = None
