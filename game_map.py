@@ -1,7 +1,10 @@
+from typing import List
+
 import numpy as np
 from tcod.console import Console
 
 from graphical_block_characters import SHROUD, GraphicalBlockCharacters as Graphics
+from rectangular_room import RectangularRoom
 
 
 class GameMap:
@@ -14,6 +17,7 @@ class GameMap:
         self.explored = np.full((width, height), fill_value=False, order="F")  # Tiles the player has seen before
         self.entities = None
         self.player = None
+        self.rooms: List[RectangularRoom] = []
 
     def in_bounds(self, x: int, y: int) -> bool:
         """Return True if x and y are inside of the bounds of this map, False if not."""
