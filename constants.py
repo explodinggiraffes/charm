@@ -1,11 +1,11 @@
 from typing import Final
 
 
-WINDOW_WIDTH: Final[int] = 80
-WINDOW_HEIGHT: Final[int] = 50
+WINDOW_WIDTH: Final[int] = 100
+WINDOW_HEIGHT: Final[int] = 65
 
-MAP_WIDTH: Final[int] = 80
-MAP_HEIGHT: Final[int] = 45
+MAP_WIDTH: Final[int] = 100
+MAP_HEIGHT: Final[int] = 60
 
 ROOM_SIZE_MAX: Final[int] = 10
 ROOM_SIZE_MIN: Final[int] = 6
