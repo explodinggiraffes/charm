@@ -45,7 +45,7 @@ class MovementAction(Action):
 
         entity.move(self.__dx, self.__dy)
 
-class EscapeAction(Action):
+class GameExitAction(Action):
     """Action for exiting the game.
 
     Raises SystemExit to terminate the application when performed.
