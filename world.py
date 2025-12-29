@@ -1,6 +1,6 @@
 from constants import MAP_HEIGHT, MAP_WIDTH, ROOMS_MAX, ROOM_SIZE_MAX, ROOM_SIZE_MIN
 from game_map import GameMap
-from proc_gen import generate_dungeon
+from proc_gen import generate_dungeon, spawn_pawns
 
 
 class World:
@@ -17,5 +17,6 @@ class World:
             map_width=MAP_WIDTH,
             map_height=MAP_HEIGHT,
         )
-        self.current_map.spawn_pawns()
+        self.current_map.entities = spawn_pawns()
+        self.current_map.player = self.current_map.entities[0]
         self.current_map.player.x, self.current_map.player.y = starting_position

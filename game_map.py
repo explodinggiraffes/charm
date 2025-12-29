@@ -15,13 +15,6 @@ class GameMap:
         self.entities = None
         self.player = None
 
-    def spawn_pawns(self) -> None:
-        """Initialize entities and player by spawning all pawns."""
-        from proc_gen import spawn_pawns
-
-        self.entities = spawn_pawns()
-        self.player = self.entities[0]
-
     def in_bounds(self, x: int, y: int) -> bool:
         """Return True if x and y are inside of the bounds of this map, False if not."""
         return 0 <= x < self.width and 0 <= y < self.height
