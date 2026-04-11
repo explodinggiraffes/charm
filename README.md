@@ -52,7 +52,7 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 - `current_map`: Public attribute holding the currently active GameMap instance
 - `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by:
   1. Calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`
-  2. Spawning entities via `proc_gen.spawn_pawns()` which returns a `Pawns` instance
+  2. Spawning entities via `proc_gen.spawn_entities()` which returns a `Pawns` instance
   3. Building `current_map.entities` from `[pawns.player] + pawns.npcs` and setting `current_map.player`
   4. Positioning the player at the starting location returned by `generate_dungeon()`
 - The Engine creates and maintains a World instance as a private attribute and accesses the game map through it
@@ -62,10 +62,10 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
   - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, and returns a tuple of (GameMap, starting_position)
   - `tunnel_between()`: Creates L-shaped corridors using Bresenham's line algorithm
 - **`proc_gen/pawn_gen.py`**: Entity spawning functions
-  - `spawn_pawns()`: Returns a `Pawns` instance containing the player and all NPCs
+  - `spawn_entities()`: Returns a `Pawns` instance containing the player and all NPCs
   - `_spawn_player_actor()`: Private helper that creates the player entity (@) at position (0, 0)
-  - `_spawn_pawn()`: Private helper that creates an NPC (O) with hardcoded position
-- Only `spawn_pawns` is re-exported via `proc_gen/__init__.py`
+  - `_spawn_entity()`: Private helper that creates an NPC (O) with hardcoded position
+- Only `spawn_entities` is re-exported via `proc_gen/__init__.py`
 
 **RectangularRoom (`rectangular_room.py`)**: A data structure for room representation with properties:
 - `center`: Returns the center coordinates of the room

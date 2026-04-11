@@ -1,5 +1,5 @@
 from constants import MAP_HEIGHT, MAP_WIDTH, ROOMS_MAX, ROOM_SIZE_MAX, ROOM_SIZE_MIN
-from proc_gen import generate_dungeon, spawn_pawns
+from proc_gen import generate_dungeon, spawn_entities
 
 
 class World:
@@ -16,7 +16,7 @@ class World:
             map_width=MAP_WIDTH,
             map_height=MAP_HEIGHT,
         )
-        pawns = spawn_pawns()
+        pawns = spawn_entities()
         self.current_map.entities = [pawns.player] + pawns.npcs
         self.current_map.player = pawns.player
         self.current_map.player.x, self.current_map.player.y = starting_position
