@@ -1,17 +1,14 @@
-from typing import List
-
-from actors import Entity
+from actors import Entity, Pawns
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH
 
 
-def spawn_pawns() -> List[Entity]:
-    """Return a list of all pawns: the player character, as well as all NPCs."""
-    player = _spawn_player_actor()
-    npc = _spawn_pawn()
+def spawn_pawns() -> Pawns:
+    """Return a Pawns instance containing the player character and all NPCs."""
+    pawns = Pawns()
+    pawns.player = _spawn_player_actor()
+    pawns.add_npc(_spawn_pawn())
 
-    entities = [player, npc]
-
-    return entities
+    return pawns
 
 def _spawn_player_actor() -> Entity:
     """Return the entity representing the player character."""
