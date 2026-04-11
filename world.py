@@ -16,6 +16,7 @@ class World:
             map_width=MAP_WIDTH,
             map_height=MAP_HEIGHT,
         )
-        self.current_map.entities = spawn_pawns()
-        self.current_map.player = self.current_map.entities[0]
+        pawns = spawn_pawns()
+        self.current_map.entities = [pawns.player] + pawns.npcs
+        self.current_map.player = pawns.player
         self.current_map.player.x, self.current_map.player.y = starting_position
