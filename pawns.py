@@ -24,5 +24,14 @@ class Pawns:
             player: The entity representing the player character.
             npcs: A list of entities representing non-player characters.
         """
-        self.player = player
-        self.npcs = npcs
+        self._player = player
+        self._npcs = npcs
+
+    @property
+    def player(self) -> Entity:
+        """Get the player character entity."""
+        return self._player
+
+    @player.setter
+    def player(self, value: Entity) -> None:
+        self._player = value
