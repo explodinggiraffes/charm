@@ -21,12 +21,12 @@ class Engine:
     5. Handles the game loop: event processing, FOV updates, and rendering
     """
     def __init__(self):
-        self.__graphics = Graphics()
-        self.__console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
-        self.__event_handler = EventHandler()
+        self._graphics = Graphics()
+        self._console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
+        self._event_handler = EventHandler()
 
-        self.__world = World()
-        self.__world.create_dungeon()
+        self._world = World()
+        self._world.create_dungeon()
 
         self.update_fov()
         self.handle_game_loop()
@@ -34,7 +34,7 @@ class Engine:
     def handle_game_loop(self) -> None:
         """ Create a window, then handle events and rendering."""
         with tcod.context.new(
-            columns=self.__console.width, rows=self.__console.height, tileset=self.__graphics.tileset, title="Charm", vsync=True
+            columns=self._console.width, rows=self._console.height, tileset=self._graphics.tileset, title="Charm", vsync=True
         ) as context:
             while True:
                 self.render(context=context)
@@ -46,31 +46,31 @@ class Engine:
     def handle_events(self, events: Iterable[Any]) -> None:
         """Handle game events and update the player's FOV."""
         for event in events:
-            action = self.__event_handler.dispatch(event)
+            action = self._event_handler.dispatch(event)
             if action is None:
                 continue
-            action.perform(self.__world.current_map, self.__world.current_map.player)
+            action.perform(self._world.current_map, self._world.current_map.player)
 
             self.update_fov()  # Update the FOV before the player's next action.
 
     def update_fov(self) -> None:
         """Recompute the visible area based on the players point of view."""
-        self.__world.current_map.visible[:] = compute_fov(
-            self.__world.current_map.tiles["transparent"],
-            (self.__world.current_map.player.x, self.__world.current_map.player.y),
+        self._world.current_map.visible[:] = compute_fov(
+            self._world.current_map.tiles["transparent"],
+            (self._world.current_map.player.x, self._world.current_map.player.y),
             radius=8,
         )
         # If a tile is "visible" it should be added to "explored".
-        self.__world.current_map.explored |= self.__world.current_map.visible
+        self._world.current_map.explored |= self._world.current_map.visible
 
     def render(self, context: Context) -> None:
         """Render the game map and entities within the player's FOV."""
-        self.__world.current_map.render(self.__console)
+        self._world.current_map.render(self._console)
 
-        for entity in self.__world.current_map.entities:
+        for entity in self._world.current_map.entities:
             # Only render entities that are in the FOV.
-            #if self.__world.current_map.visible[entity.x, entity.y]:  # Re-add this if statement when entities are debugged
-            self.__console.print(entity.x, entity.y, entity.char, fg=entity.color)
+            #if self._world.current_map.visible[entity.x, entity.y]:  # Re-add this if statement when entities are debugged
+            self._console.print(entity.x, entity.y, entity.char, fg=entity.color)
 
-        context.present(self.__console)
-        self.__console.clear()
+        context.present(self._console)
+        self._console.clear()
