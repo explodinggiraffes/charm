@@ -61,7 +61,7 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 - **`proc_gen/game_map_gen.py`**: Map generation functions
   - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, and returns a tuple of (GameMap, starting_position)
   - `tunnel_between()`: Creates L-shaped corridors using Bresenham's line algorithm
-- **`proc_gen/pawn_gen.py`**: Entity spawning functions
+- **`proc_gen/entity_gen.py`**: Entity spawning functions
   - `spawn_entities()`: Returns a `Pawns` instance containing the player and all NPCs
   - `_spawn_player_actor()`: Private helper that creates the player entity (@) at position (0, 0)
   - `_spawn_entity()`: Private helper that creates an NPC (O) with hardcoded position

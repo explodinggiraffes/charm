@@ -4,7 +4,7 @@ from proc_gen.game_map_gen import (
     generate_dungeon,
     tunnel_between,
 )
-from proc_gen.pawn_gen import spawn_entities
+from proc_gen.entity_gen import spawn_entities
 
 __all__ = [
     "generate_dungeon",
