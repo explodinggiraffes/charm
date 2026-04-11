@@ -46,14 +46,15 @@ python3 main.py
 4. Calls `World.create_dungeon()` to populate the World's `current_map` attribute
 5. Handles the game loop: event processing, FOV updates, and rendering
 
-The Engine does not maintain its own reference to the GameMap. It accesses the current map, entities, and player through `self.__world.current_map`, `self.__world.current_map.entities`, and `self.__world.current_map.player`.
+The Engine does not maintain its own reference to the GameMap. It accesses the current map, entities, and player through `self._world.current_map`, `self._world.current_map.entities`, and `self._world.current_map.player`.
 
 **World (`world.py`)**: Container for game levels/maps. Manages the current active map:
 - `current_map`: Public attribute holding the currently active GameMap instance
 - `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by:
   1. Calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`
-  2. Spawning entities via `proc_gen.spawn_pawns()` and assigning to `current_map.entities`
-  3. Positioning the player at the starting location returned by `generate_dungeon()`
+  2. Spawning entities via `proc_gen.spawn_pawns()` which returns a `Pawns` instance
+  3. Building `current_map.entities` from `[pawns.player] + pawns.npcs` and setting `current_map.player`
+  4. Positioning the player at the starting location returned by `generate_dungeon()`
 - The Engine creates and maintains a World instance as a private attribute and accesses the game map through it
 
 **Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
@@ -61,10 +62,10 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
   - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, and returns a tuple of (GameMap, starting_position)
   - `tunnel_between()`: Creates L-shaped corridors using Bresenham's line algorithm
 - **`proc_gen/pawn_gen.py`**: Entity spawning functions
-  - `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
-  - `spawn_pawn()`: Creates an NPC (O) with hardcoded position
-  - `spawn_pawns()`: Returns a list containing the player (index 0) and all NPCs
-- All functions are re-exported via `proc_gen/__init__.py` for convenient importing
+  - `spawn_pawns()`: Returns a `Pawns` instance containing the player and all NPCs
+  - `_spawn_player_actor()`: Private helper that creates the player entity (@) at position (0, 0)
+  - `_spawn_pawn()`: Private helper that creates an NPC (O) with hardcoded position
+- Only `spawn_pawns` is re-exported via `proc_gen/__init__.py`
 
 **RectangularRoom (`rectangular_room.py`)**: A data structure for room representation with properties:
 - `center`: Returns the center coordinates of the room
@@ -84,6 +85,13 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 ### Entity-Component System
 
 **Entity (`actors/entity.py`)**: Generic container for all game objects (players, NPCs, items). Has position (x, y), visual representation (char, color), and a `move()` method. Subclasses planned but not yet implemented. Re-exported via `actors/__init__.py` for convenient importing.
+
+**Pawns (`actors/pawns.py`)**: Container for player and NPC entities. Provides a structured alternative to a plain list:
+- `player`: Property (with setter) for the player entity
+- `npcs`: Property returning the list of NPC entities
+- `add_npc(npc)`: Adds an NPC to the list
+- `remove_npc(npc)`: Removes an NPC (no-op if not found)
+- Re-exported via `actors/__init__.py`
 
 **Actions (`actions.py`)**: Command pattern for all game behaviors:
 - `Action`: Base class with `perform(game_map, entity)` signature
@@ -114,7 +122,7 @@ Key configuration values in `constants.py`:
 
 - Uses `TYPE_CHECKING` imports to avoid circular dependencies
 - NumPy arrays use Fortran order ("F") for column-major layout
-- Private attributes use double underscore prefix (`__attribute`)
+- Private attributes use single underscore prefix (`_attribute`)
 - FOV radius hardcoded to 8 in `Engine.update_fov()`
 - Pylint configured to disable C0114 (missing module docstrings), C0116 (missing function docstrings), C0301 (line too long), R0913 (too many arguments), R0917 (too many positional arguments)
 
