@@ -58,3 +58,11 @@ class EventHandler(tcod.event.EventDispatch[Action]):
     def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
         """Called when the termination of the game is requested."""
         raise SystemExit()
+
+    def ev_pixelsizechanged(self, event) -> None:
+        """Called when the window pixel size changes."""
+        pass
+
+    def ev_clipboardupdate(self, event) -> None:
+        """Called when the clipboard is updated."""
+        pass
