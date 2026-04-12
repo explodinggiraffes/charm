@@ -102,7 +102,7 @@ Actions decouple input from behavior and receive the `game_map` for validation a
 
 ### Input & Rendering
 
-**EventHandler (`input_handlers.py`)**: Translates TCOD events to Actions. Supports arrow keys, numpad, and vi-keys for 8-directional movement.
+**EventHandler (`input_handlers.py`)**: Translates TCOD events to Actions. Supports arrow keys, numpad, and vi-keys for 8-directional movement. Also includes no-op handlers for `ev_pixelsizechanged` and `ev_clipboardupdate` to suppress TCOD runtime warnings.
 
 **Graphics (`graphical_block_characters.py`)**:
 - Loads the tileset (`Alloy_curses_12x12.png` from assets/)
