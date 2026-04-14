@@ -18,4 +18,3 @@ class World:
         )
         self.current_map.entities = [pawns.player] + pawns.npcs
         self.current_map.player = pawns.player
-        self.current_map.player.x, self.current_map.player.y = starting_position
