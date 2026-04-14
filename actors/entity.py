@@ -1,9 +1,6 @@
 from typing import Tuple
 
-# Note:
-# - Subclasses of Entity will be implemented here.
-# - Graphical block characters used in roguelikes:
-#   https://www.reddit.com/r/roguelikedev/comments/2fxaks/a_compendium_of_ascii_characters_across_roguelikes/
+# NOTE: Subclasses of Entity will be implemented here.
 
 
 class Entity:
