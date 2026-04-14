@@ -25,6 +25,7 @@ def generate_dungeon(
         A tuple of (GameMap, Pawns, starting_position) where starting_position is (x, y).
     """
     dungeon = GameMap(map_width, map_height)
+    spawner = DungeonEntitySpawner()
     starting_position = (0, 0)
 
     for _ in range(max_rooms):
@@ -48,6 +49,7 @@ def generate_dungeon(
         if len(dungeon.rooms) == 0:
             # The first room, where the player starts.
             starting_position = new_room.center
+            spawner.spawn_player_actor(x=new_room.center[0], y=new_room.center[1])
         else:
             # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
@@ -57,9 +59,7 @@ def generate_dungeon(
         # Finally, append the new room to the list.
         dungeon.rooms.append(new_room)
 
-    pawns = DungeonEntitySpawner().spawn_pawns()
-
-    return dungeon, pawns, starting_position
+    return dungeon, spawner.pawns, starting_position
 
 def tunnel_between(
     start: Tuple[int, int], end: Tuple[int, int]

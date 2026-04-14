@@ -1,22 +1,22 @@
 from actors import Entity, Pawns
-from constants import WINDOW_HEIGHT, WINDOW_WIDTH
 
 
 class DungeonEntitySpawner:
     """Handles spawning of all entities (player and NPCs) for a dungeon."""
 
-    def spawn_pawns(self) -> Pawns:
-        """Return a Pawns instance containing the player character and all NPCs."""
+    def __init__(self):
+        """Initialize the spawner and create an empty Pawns container."""
         self._pawns = Pawns()
-        self._pawns.player = self.spawn_player_actor()
-        self._pawns.add_npc(self.spawn_npc_actor())
 
+    @property
+    def pawns(self) -> Pawns:
+        """Return the Pawns container for this spawner."""
         return self._pawns
 
-    def spawn_player_actor(self) -> Entity:
-        """Return the entity representing the player character."""
-        return Entity(char="@", color=(255, 255, 255), x=0, y=0)
+    def spawn_player_actor(self, *, x: int, y: int) -> None:
+        """Add the player entity to the Pawns container."""
+        self._pawns.player = Entity(char="@", color=(255, 255, 255), x=x, y=y)
 
-    def spawn_npc_actor(self) -> Entity:
-        """Return an entity controlled by the game's AI as non-player characters (NPCs)."""
-        return Entity(char="O", color=(255, 255, 0), x=int(WINDOW_WIDTH / 2 - 5), y=int(WINDOW_HEIGHT / 2))
+    def spawn_npc_actor(self, *, x: int, y: int) -> None:
+        """Add an NPC entity to the Pawns container."""
+        self._pawns.add_npc(Entity(char="O", color=(255, 255, 0), x=x, y=y))
