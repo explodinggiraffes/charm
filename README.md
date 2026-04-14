@@ -57,7 +57,7 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 
 **Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
 - **`proc_gen/dungeon_map_gen.py`**: Map generation functions
-  - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, spawns the player via `DungeonEntitySpawner`, and returns a tuple of (GameMap, Pawns)
+  - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, spawns the player via `DungeonEntitySpawner`, and returns a tuple of (GameMap, Pawns). Accepts `max_npcs_per_room` to control NPC density.
   - `_tunnel_between()`: Private helper that creates L-shaped corridors using Bresenham's line algorithm
 - **`proc_gen/dungeon_spawn_gen.py`**: Entity spawning encapsulated in `DungeonEntitySpawner`:
   - `__init__()`: Creates an empty `_pawns` container
@@ -112,10 +112,11 @@ Actions decouple input from behavior and receive the `game_map` for validation a
 ## Constants
 
 Key configuration values in `constants.py`:
-- `WINDOW_WIDTH/HEIGHT`: Console size (80x50)
-- `MAP_WIDTH/HEIGHT`: Dungeon size (80x45)
-- `ROOM_SIZE_MIN/MAX`: Room dimensions (6-10)
-- `ROOMS_MAX`: Maximum room attempts (30)
+- `WINDOW_WIDTH/HEIGHT`: Console dimensions
+- `MAP_WIDTH/HEIGHT`: Dungeon map dimensions
+- `ROOM_SIZE_MIN/MAX`: Room size bounds
+- `ROOMS_MAX`: Maximum number of room generation attempts
+- `MAX_NPCS_PER_ROOM`: Maximum NPCs spawned per room
 
 ## Code Patterns
 
