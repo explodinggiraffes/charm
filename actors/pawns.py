@@ -6,11 +6,7 @@ from actors import Entity
 
 
 class Pawns:
-    """A container that holds the player and NPC entities.
-
-    This class provides a structured alternative to a plain list for managing the entities returned by the spawn
-    functions in the proc_gen module.
-    """
+    """A container that holds the player and NPC entities."""
 
     def __init__(self):
         """Initialize Pawns with default values."""
