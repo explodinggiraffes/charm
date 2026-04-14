@@ -58,13 +58,13 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 - The Engine creates and maintains a World instance as a private attribute and accesses the game map through it
 
 **Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
-- **`proc_gen/game_map_gen.py`**: Map generation functions
+- **`proc_gen/dungeon_map_gen.py`**: Map generation functions
   - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, and returns a tuple of (GameMap, starting_position)
   - `tunnel_between()`: Creates L-shaped corridors using Bresenham's line algorithm
-- **`proc_gen/spawn_gen.py`**: Entity spawning functions
+- **`proc_gen/dungeon_spawn_gen.py`**: Entity spawning functions
   - `spawn_pawns()`: Returns a `Pawns` instance containing the player and all NPCs
-  - `_spawn_player_actor()`: Private helper that creates the player entity (@) at position (0, 0)
-  - `_spawn_npc_actor()`: Private helper that creates an NPC (O) with hardcoded position
+  - `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
+  - `spawn_npc_actor()`: Creates an NPC (O) with hardcoded position
 - Only `spawn_pawns` is re-exported via `proc_gen/__init__.py`
 
 **RectangularRoom (`rectangular_room.py`)**: A data structure for room representation with properties:
@@ -84,7 +84,7 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 
 ### Entity-Component System
 
-**Entity (`actors/entity.py`)**: Generic container for all game objects (players, NPCs, items). Has position (x, y), visual representation (char, color), and a `move()` method. Subclasses planned but not yet implemented. Re-exported via `actors/__init__.py` for convenient importing.
+**Entity (`actors/entity.py`)**: Generic container for all game objects (players, NPCs, items). Has position (x, y), visual representation (char, color), and a `move()` method. All parameters in `__init__()` and `move()` are keyword-only. Subclasses planned but not yet implemented. Re-exported via `actors/__init__.py` for convenient importing.
 
 **Pawns (`actors/pawns.py`)**: Container for player and NPC entities. Provides a structured alternative to a plain list:
 - `player`: Property (with setter) for the player entity
@@ -95,7 +95,7 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 
 **Actions (`actions.py`)**: Command pattern for all game behaviors:
 - `Action`: Base class with `perform(game_map, entity)` signature
-- `MovementAction`: Validates destination (bounds + walkability) before moving
+- `MovementAction`: Validates destination (bounds + walkability) before moving. Stores offset as `_dx`/`_dy` (single underscore, protected).
 - `GameExitAction`: Exits the game
 
 Actions decouple input from behavior and receive the `game_map` for validation and state changes.

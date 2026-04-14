@@ -30,19 +30,19 @@ class MovementAction(Action):
     """
     def __init__(self, dx: int, dy: int):
         super().__init__()
-        self.__dx = dx
-        self.__dy = dy
+        self._dx = dx
+        self._dy = dy
 
     def perform(self, game_map: GameMap, entity: Entity) -> None:
-        dest_x = entity.x + self.__dx
-        dest_y = entity.y + self.__dy
+        dest_x = entity.x + self._dx
+        dest_y = entity.y + self._dy
 
         if not game_map.in_bounds(dest_x, dest_y):
             return  # Destination is out of bounds
         if not game_map.tiles["walkable"][dest_x, dest_y]:
             return  # Destination is blocked by a tile
 
-        entity.move(self.__dx, self.__dy)
+        entity.move(dx=self._dx, dy=self._dy)
 
 class GameExitAction(Action):
     """Action for exiting the game.
