@@ -5,8 +5,10 @@ from typing import Iterator, Tuple
 
 import tcod
 
+from actors import Pawns
 from game_map import GameMap
 from graphical_block_characters import GraphicalBlockCharacters as Graphics
+from proc_gen.dungeon_spawn_gen import spawn_pawns
 from rectangular_room import RectangularRoom
 
 
@@ -16,11 +18,11 @@ def generate_dungeon(
     room_max_size: int,
     map_width: int,
     map_height: int,
-) -> Tuple[GameMap, Tuple[int, int]]:
+) -> Tuple[GameMap, Pawns, Tuple[int, int]]:
     """Generate a new dungeon map.
 
     Returns:
-        A tuple of (GameMap, starting_position) where starting_position is (x, y).
+        A tuple of (GameMap, Pawns, starting_position) where starting_position is (x, y).
     """
     dungeon = GameMap(map_width, map_height)
     starting_position = (0, 0)
@@ -55,7 +57,9 @@ def generate_dungeon(
         # Finally, append the new room to the list.
         dungeon.rooms.append(new_room)
 
-    return dungeon, starting_position
+    pawns = spawn_pawns()
+
+    return dungeon, pawns, starting_position
 
 def tunnel_between(
     start: Tuple[int, int], end: Tuple[int, int]

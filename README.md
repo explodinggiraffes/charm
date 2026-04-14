@@ -51,15 +51,14 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 **World (`world.py`)**: Container for game levels/maps. Manages the current active map:
 - `current_map`: Public attribute holding the currently active GameMap instance
 - `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by:
-  1. Calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`
-  2. Spawning entities via `proc_gen.spawn_pawns()` which returns a `Pawns` instance
-  3. Building `current_map.entities` from `[pawns.player] + pawns.npcs` and setting `current_map.player`
-  4. Positioning the player at the starting location returned by `generate_dungeon()`
+  1. Calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`, which returns a `(GameMap, Pawns, starting_position)` tuple
+  2. Building `current_map.entities` from `[pawns.player] + pawns.npcs` and setting `current_map.player`
+  3. Positioning the player at the starting location returned by `generate_dungeon()`
 - The Engine creates and maintains a World instance as a private attribute and accesses the game map through it
 
 **Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
 - **`proc_gen/dungeon_map_gen.py`**: Map generation functions
-  - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, and returns a tuple of (GameMap, starting_position)
+  - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, spawns entities via `spawn_pawns()`, and returns a tuple of (GameMap, Pawns, starting_position)
   - `tunnel_between()`: Creates L-shaped corridors using Bresenham's line algorithm
 - **`proc_gen/dungeon_spawn_gen.py`**: Entity spawning functions
   - `spawn_pawns()`: Returns a `Pawns` instance containing the player and all NPCs
