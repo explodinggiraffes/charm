@@ -56,7 +56,7 @@ def generate_dungeon(
 
         if len(dungeon.rooms) == 0:
             # The first room, where the player starts.
-            spawner.spawn_player(x=new_room.center[0], y=new_room.center[1])
+            spawner.spawn_player(name="Player", x=new_room.center[0], y=new_room.center[1])
         else:
             # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
@@ -99,4 +99,4 @@ def _spawn_npcs(room: RectangularRoom, spawner: DungeonEntitySpawner, max_npcs: 
 
         if (x, y) not in occupied_positions:
             occupied_positions.add((x, y))
-            spawner.spawn_npc(x=x, y=y)
+            spawner.spawn_npc(name="NPC", x=x, y=y)
