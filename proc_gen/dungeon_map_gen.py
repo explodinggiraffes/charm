@@ -63,6 +63,9 @@ def generate_dungeon(
             for x, y in _tunnel_between(dungeon.rooms[-1].center, new_room.center):
                 dungeon.tiles[x, y] = Graphics.floor_tile()
 
+        # Spawn NPCs in this room.
+        _spawn_npcs(new_room, spawner, max_npcs_per_room)
+
         # Finally, append the new room to the list.
         dungeon.rooms.append(new_room)
 
@@ -84,3 +87,16 @@ def _tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tu
         yield x, y
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist():
         yield x, y
+
+def _spawn_npcs(room: RectangularRoom, spawner: DungeonEntitySpawner, max_npcs: int) -> None:
+    """Spawn up to max_npcs NPCs at unique random positions within the given room."""
+    number_of_npcs = random.randint(0, max_npcs)
+    occupied_positions = set()
+
+    for _ in range(number_of_npcs):
+        x = random.randint(room.x1 + 1, room.x2 - 1)
+        y = random.randint(room.y1 + 1, room.y2 - 1)
+
+        if (x, y) not in occupied_positions:
+            occupied_positions.add((x, y))
+            spawner.spawn_npc(x=x, y=y)
