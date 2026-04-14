@@ -58,13 +58,13 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 
 **Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
 - **`proc_gen/dungeon_map_gen.py`**: Map generation functions
-  - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, spawns entities via `spawn_pawns()`, and returns a tuple of (GameMap, Pawns, starting_position)
+  - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, spawns entities via `DungeonEntitySpawner().spawn_pawns()`, and returns a tuple of (GameMap, Pawns, starting_position)
   - `tunnel_between()`: Creates L-shaped corridors using Bresenham's line algorithm
-- **`proc_gen/dungeon_spawn_gen.py`**: Entity spawning functions
-  - `spawn_pawns()`: Returns a `Pawns` instance containing the player and all NPCs
+- **`proc_gen/dungeon_spawn_gen.py`**: Entity spawning functions encapsulated in `DungeonEntitySpawner`:
+  - `spawn_pawns()`: Instantiates `_pawns`, populates it with the player and all NPCs, and returns the `Pawns` instance
   - `spawn_player_actor()`: Creates the player entity (@) at position (0, 0)
   - `spawn_npc_actor()`: Creates an NPC (O) with hardcoded position
-- Only `spawn_pawns` is re-exported via `proc_gen/__init__.py`
+- Only `DungeonEntitySpawner` is re-exported via `proc_gen/__init__.py`
 
 **RectangularRoom (`rectangular_room.py`)**: A data structure for room representation with properties:
 - `center`: Returns the center coordinates of the room

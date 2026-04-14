@@ -8,7 +8,7 @@ import tcod
 from actors import Pawns
 from game_map import GameMap
 from graphical_block_characters import GraphicalBlockCharacters as Graphics
-from proc_gen.dungeon_spawn_gen import spawn_pawns
+from proc_gen.dungeon_spawn_gen import DungeonEntitySpawner
 from rectangular_room import RectangularRoom
 
 
@@ -57,7 +57,7 @@ def generate_dungeon(
         # Finally, append the new room to the list.
         dungeon.rooms.append(new_room)
 
-    pawns = spawn_pawns()
+    pawns = DungeonEntitySpawner().spawn_pawns()
 
     return dungeon, pawns, starting_position
 
