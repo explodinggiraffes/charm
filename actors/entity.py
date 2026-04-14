@@ -5,19 +5,30 @@ from typing import Tuple
 
 class Entity:
     """A generic object to represent players, enemies, items, etc."""
-    def __init__(self, *, char: str, color: Tuple[int, int, int], x: int, y: int):
+    def __init__(self, *,
+        name: str,
+        char: str,
+        color: Tuple[int, int, int],
+        x: int,
+        y: int,
+        blocks_movement: bool
+    ):
         """Initialize an Entity with a visual representation and map position.
 
         Args:
+            name: The human-readable name of this entity.
             char: The character used to represent this entity on the map.
             color: The RGB color tuple used to render the entity's character.
             x: The initial column position of the entity on the map.
             y: The initial row position of the entity on the map.
+            blocks_movement: Whether this entity blocks other entities from moving into its tile.
         """
+        self.name = name
         self.x = x
         self.y = y
         self.char = char
         self.color = color
+        self.blocks_movement = blocks_movement
 
     def move(self, *, dx: int, dy: int) -> None:
         """Move the entity by a relative offset.
