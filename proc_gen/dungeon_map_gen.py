@@ -56,7 +56,7 @@ def generate_dungeon(
 
         if len(dungeon.rooms) == 0:
             # The first room, where the player starts.
-            spawner.spawn_player_actor(x=new_room.center[0], y=new_room.center[1])
+            spawner.spawn_player(x=new_room.center[0], y=new_room.center[1])
         else:
             # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.

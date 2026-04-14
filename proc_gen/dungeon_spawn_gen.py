@@ -13,10 +13,10 @@ class DungeonEntitySpawner:
         """Return the Pawns container for this spawner."""
         return self._pawns
 
-    def spawn_player_actor(self, *, x: int, y: int) -> None:
+    def spawn_player(self, *, x: int, y: int) -> None:
         """Add the player entity to the Pawns container."""
         self._pawns.player = Entity(char="@", color=(255, 255, 255), x=x, y=y)
 
-    def spawn_npc_actor(self, *, x: int, y: int) -> None:
+    def spawn_npc(self, *, x: int, y: int) -> None:
         """Add an NPC entity to the Pawns container."""
         self._pawns.add_npc(Entity(char="O", color=(255, 255, 0), x=x, y=y))
