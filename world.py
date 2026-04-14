@@ -9,7 +9,7 @@ class World:
 
     def create_dungeon(self) -> None:
         """Generate a new dungeon map."""
-        self.current_map, pawns, starting_position = generate_dungeon(
+        self.current_map, pawns = generate_dungeon(
             max_rooms=ROOMS_MAX,
             room_min_size=ROOM_SIZE_MIN,
             room_max_size=ROOM_SIZE_MAX,
