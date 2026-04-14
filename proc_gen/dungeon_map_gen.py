@@ -51,7 +51,7 @@ def generate_dungeon(
         else:
             # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
-            for x, y in tunnel_between(dungeon.rooms[-1].center, new_room.center):
+            for x, y in _tunnel_between(dungeon.rooms[-1].center, new_room.center):
                 dungeon.tiles[x, y] = Graphics.floor_tile()
 
         # Finally, append the new room to the list.
@@ -59,7 +59,7 @@ def generate_dungeon(
 
     return dungeon, spawner.pawns
 
-def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tuple[int, int]]:
+def _tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tuple[int, int]]:
     """Return an L-shaped tunnel between these two points."""
     x1, y1 = start
     x2, y2 = end

@@ -58,7 +58,7 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 **Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
 - **`proc_gen/dungeon_map_gen.py`**: Map generation functions
   - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, spawns the player via `DungeonEntitySpawner`, and returns a tuple of (GameMap, Pawns)
-  - `tunnel_between()`: Creates L-shaped corridors using Bresenham's line algorithm
+  - `_tunnel_between()`: Private helper that creates L-shaped corridors using Bresenham's line algorithm
 - **`proc_gen/dungeon_spawn_gen.py`**: Entity spawning encapsulated in `DungeonEntitySpawner`:
   - `__init__()`: Creates an empty `_pawns` container
   - `pawns`: Read-only property returning the `_pawns` container
