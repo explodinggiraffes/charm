@@ -84,7 +84,7 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 
 ### Entity-Component System
 
-**Entity (`actors/entity.py`)**: Generic container for all game objects (players, NPCs, items). Has position (x, y), visual representation (char, color), and a `move()` method. All parameters in `__init__()` and `move()` are keyword-only. Subclasses planned but not yet implemented. Re-exported via `actors/__init__.py` for convenient importing.
+**Entity (`actors/entity.py`)**: Generic container for all game objects (players, NPCs, items). Has a `name`, position (x, y), visual representation (char, color), a `blocks_movement` flag, and a `move()` method. All parameters in `__init__()` and `move()` are keyword-only. Subclasses planned but not yet implemented. Re-exported via `actors/__init__.py` for convenient importing.
 
 **Pawns (`actors/pawns.py`)**: Container for player and NPC entities. Provides a structured alternative to a plain list:
 - `player`: Property (with setter) for the player entity
