@@ -51,14 +51,13 @@ The Engine does not maintain its own reference to the GameMap. It accesses the c
 **World (`world.py`)**: Container for game levels/maps. Manages the current active map:
 - `current_map`: Public attribute holding the currently active GameMap instance
 - `create_dungeon()`: Instance method that generates a new dungeon and populates `self.current_map` by:
-  1. Calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`, which returns a `(GameMap, Pawns, starting_position)` tuple
+  1. Calling `proc_gen.generate_dungeon()` with default parameters from `constants.py`, which returns a `(GameMap, Pawns)` tuple
   2. Building `current_map.entities` from `[pawns.player] + pawns.npcs` and setting `current_map.player`
-  3. Positioning the player at the starting location returned by `generate_dungeon()`
 - The Engine creates and maintains a World instance as a private attribute and accesses the game map through it
 
 **Procedural Generation (`proc_gen` module)**: A module containing procedural generation logic organized in two files:
 - **`proc_gen/dungeon_map_gen.py`**: Map generation functions
-  - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, spawns the player via `DungeonEntitySpawner`, and returns a tuple of (GameMap, Pawns, starting_position)
+  - `generate_dungeon()`: Creates a GameMap, generates non-overlapping rooms connected by L-shaped tunnels, populates the `GameMap.rooms` attribute, spawns the player via `DungeonEntitySpawner`, and returns a tuple of (GameMap, Pawns)
   - `tunnel_between()`: Creates L-shaped corridors using Bresenham's line algorithm
 - **`proc_gen/dungeon_spawn_gen.py`**: Entity spawning encapsulated in `DungeonEntitySpawner`:
   - `__init__()`: Creates an empty `_pawns` container
