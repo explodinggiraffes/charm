@@ -63,8 +63,8 @@ def generate_dungeon(
             for x, y in _tunnel_between(dungeon.rooms[-1].center, new_room.center):
                 dungeon.tiles[x, y] = Graphics.floor_tile()
 
-        # Spawn NPCs in this room.
-        _spawn_npcs(new_room, spawner, max_npcs_per_room)
+            # Spawn NPCs in this room. Note we only spawn NPCs in rooms after the first, where the player starts.
+            _spawn_npcs(new_room, spawner, max_npcs_per_room)
 
         # Finally, append the new room to the list.
         dungeon.rooms.append(new_room)
