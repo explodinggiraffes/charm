@@ -18,8 +18,17 @@ def generate_dungeon(
     room_max_size: int,
     map_width: int,
     map_height: int,
+    max_npcs_per_room: int,
 ) -> Tuple[GameMap, Pawns]:
     """Generate a new dungeon map.
+
+    Args:
+        max_rooms: Maximum number of rooms to attempt generating.
+        room_min_size: Minimum width and height of a room.
+        room_max_size: Maximum width and height of a room.
+        map_width: Width of the dungeon map in tiles.
+        map_height: Height of the dungeon map in tiles.
+        max_npcs_per_room: Maximum number of NPCs to spawn per room.
 
     Returns:
         A tuple of (GameMap, Pawns).
